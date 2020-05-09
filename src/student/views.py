@@ -40,8 +40,6 @@ def student_list(request):
         str(student)
         for student in qs
     )
-    print(qs)
-    # return HttpResponse(result)
     return render(
         request=request,
         template_name='students_list.html',
