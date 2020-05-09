@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from student.models import Student as student
 
+
 class Command(BaseCommand):
     help = 'Generates N fake students'
 
