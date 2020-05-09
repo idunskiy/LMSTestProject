@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render
 from django.http import HttpResponse
 
@@ -17,17 +18,28 @@ def generate_student(request):
 def student_list(request):
     qs = Student.objects.all()
 
-    if request.GET.get('fname'):
-        qs = qs.filter(first_name = request.GET.get('fname'))
+    # AND filter implementation
+    # if request.GET.get('fname'):
+    # qs.filter(first_name = request.GET.get('fname'))
+    #
+    # if request.GET.get('lname'):
+    #     qs = Q(question__startswith=request.GET.get('lname'))
+    #     # qs = qs.filter(last_name=request.GET.get('lname'))
+    #
+    # if request.GET.get('email'):
+    #     qs = qs.filter(email=request.GET.get('email'))
 
-    if request.GET.get('lname'):
-        qs = qs.filter(last_name=request.GET.get('lname'))
+    # OR filter implementation
+    if request.GET.get('fname') or request.GET.get('lname') or request.GET.get('email'):
+        query = (Q(first_name=request.GET.get('fname')) |
+                  Q(last_name=request.GET.get('lname')) |
+                   Q(email=request.GET.get('email')))
+        qs = qs.filter(query)
 
     result = '<br>'.join(
         str(student)
         for student in qs
     )
-    # return HttpResponse(result)
     return render(
         request=request,
         template_name='students_list.html',

@@ -11,7 +11,7 @@ class Student(models.Model):
     first_name = models.CharField(max_length=40, null=False)
     last_name = models.CharField(max_length=20, null=False)
     email = models.CharField(max_length=50)
-    birthdate = models.DateField(default=datetime.datetime.now().date())
+    birthdate = models.DateField(default=datetime.datetime.now())
 
     def __str__(self):
         return f"{self.first_name}, {self.last_name}, {self.birthdate}, {self.email}"
