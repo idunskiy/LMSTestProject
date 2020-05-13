@@ -11,8 +11,8 @@ class Group(models.Model):
     @classmethod
     def generate_group(cls, group_name, group_specialization):
         group = cls(
-            group_name = group_name,
-            group_specialization = group_specialization
+            group_name=group_name,
+            group_specialization=group_specialization
         )
         group.save()
         return group
