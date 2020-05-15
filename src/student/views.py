@@ -1,3 +1,5 @@
+import json
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.shortcuts import render
@@ -54,16 +56,18 @@ def students_add(request):
         if form.is_valid():
             qs = Student.objects.all()
             query = (Q(email=form.cleaned_data['email']) | Q(phone_number=form.cleaned_data['phone_number']))
-            qs = qs.filter(query).first()
-            if qs is None:
+            qs = qs.filter(query)
+            if not qs.exists():
                 print(qs)
                 form.save()
                 return HttpResponseRedirect(reverse('students'))
             else:
-                print(qs)
-                print(f'{qs.email} + {qs.phone_number}')
-                return HttpResponse(f'Student with email: {qs.email} or with '
+                qs = qs.first()
+                print(f"{qs.email} + {qs.phone_number}")
+                response = HttpResponse(f'Student with email: {qs.email} or with '
                                     f'phone: {qs.phone_number} already exists')
+                response.status_code = 409
+                return response
     else:
         form = StudentAddForm()
     return render(
