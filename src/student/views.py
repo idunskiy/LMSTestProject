@@ -8,7 +8,7 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 # Create your views here.
 from django.urls import reverse
 
-from student.forms import StudentAddForm, StudentEditForm
+from student.forms import StudentAddForm, StudentEditForm, StudentDeleteForm
 from student.models import Student
 
 
@@ -99,4 +99,11 @@ def students_edit(request, id):
         context={'form': form,
                  'title': 'Edit students'}
     )
+
+
+def students_delete(request, id):
+    if request.method == 'POST':
+        form = StudentDeleteForm(request.POST)
+        print(f'Hi, I am delete + {id}')
+    return HttpResponseRedirect(reverse('students'))
 

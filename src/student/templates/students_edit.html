@@ -4,8 +4,13 @@
     <form method="post">
       {% csrf_token %}
       {{ form.as_p }}
-
       <button type="submit">Save</button>
+
     </form>
+
+   <form method="post">
+        <button formaction="/students/delete/{{ student.id }}" type="submit" name="studentBtnDelete" id="studentBtnDelete">Delete</button>
+   </form>
+
 
 {% endblock %}
