@@ -15,20 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
-from group.views import groups_list, generate_group
-from student.views import generate_student, student_list, students_add
-from teacher.views import teachers_list, generate_teacher
+from group.views import groups_list, groups_add
+from student.views import generate_student, student_list, students_add, students_edit
+from teacher.views import teachers_list, teachers_add
 
 urlpatterns = [
     path('', admin.site.urls),
     path('admin/', admin.site.urls),
     path('generate-student', generate_student),
-    path('students', student_list),
-    path('students/add/', students_add),
-    path('groups', groups_list),
-    path('groups/add', generate_group),
-    path('teachers', teachers_list),
-    path('teachers/add', generate_teacher),
+    path('students', student_list, name='students'),
+    path('students/add/', students_add, name='students_add'),
+    path('students/edit/<int:id>', students_edit, name='students_edit'),
+    path('groups', groups_list, name='groups'),
+    path('groups/add', groups_add, name='groups_add'),
+    path('teachers', teachers_list, name='teachers'),
+    path('teachers/add', teachers_add, name='teachers_add'),
 
 ]
