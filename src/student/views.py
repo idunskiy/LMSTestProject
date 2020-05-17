@@ -97,13 +97,13 @@ def students_edit(request, id):
         request=request,
         template_name='students_edit.html',
         context={'form': form,
-                 'title': 'Edit students'}
+                 'title': 'Edit students',
+                 'student': student, }
     )
 
 
 def students_delete(request, id):
-    if request.method == 'POST':
-        form = StudentDeleteForm(request.POST)
-        print(f'Hi, I am delete + {id}')
+    Student.objects.filter(pk=id).delete()
     return HttpResponseRedirect(reverse('students'))
+
 

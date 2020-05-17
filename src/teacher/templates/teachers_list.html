@@ -1,12 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
- {{teachers_list | safe }}
+{% block content %}
 
-</body>
-</html>
+ {% for teacher in teachers_list %}
+        {{ teacher.id }}
+        <a href="/teachers/edit/{{ teacher.id }}"> {{ teacher.first_name }}
+           {{ teacher.last_name }} </a>
+        {{ teacher.email }}
+        <br>
+    {% empty %}
+        <p>Sorry, list is empty</p>
+    {% endfor %}
+
+{% endblock %}

@@ -18,33 +18,37 @@ def generate_group(request):
 
 def groups_list(request):
     qs = Group.objects.all()
+    for group in qs:
+        print(group)
     return render(
         request=request,
         template_name='groups_list.html',
-        context={'groups_list': qs}
+        context={'groups_list': qs,
+                 'title': 'Groups list'}
     )
 
 
 def groups_edit(request, id):
     try:
-        student = Group.objects.get(id=id)
+        group = Group.objects.get(id=id)
     except ObjectDoesNotExist:
-        return HttpResponseNotFound(f'Student with id={id} does not exists.')
+        return HttpResponseNotFound(f'Group with id={id} does not exists.')
 
     if request.method == 'POST':
-        form = GroupEditForm(request.POST, instance=student)
+        form = GroupEditForm(request.POST, instance=group)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('students'))
+            return HttpResponseRedirect(reverse('groups'))
     else:
         form = GroupEditForm(
-            instance=student
+            instance=group
         )
     return render(
         request=request,
-        template_name='students_edit.html',
+        template_name='groups_edit.html',
         context={'form': form,
-                 'title': 'Edit students'}
+                 'title': 'Edit groups',
+                 'group': group}
     )
 
 
@@ -61,3 +65,8 @@ def groups_add(request):
         template_name='groups_add.html',
         context={'form': form}
     )
+
+
+def groups_delete(request, id):
+    Group.objects.filter(pk=id).delete()
+    return HttpResponseRedirect(reverse('groups'))
