@@ -1,11 +1,9 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import render
-
 # Create your views here.
 from django.urls import reverse
 
-from student.forms import StudentEditForm
 from teacher.forms import TeacherAddForm, TeacherEditForm
 from teacher.models import Teacher
 
@@ -65,11 +63,10 @@ def teachers_edit(request, id):
         template_name='teachers_edit.html',
         context={'form': form,
                  'title': 'Edit teachers',
-                 'student': teacher, }
+                 'teacher': teacher, }
     )
 
 
 def teachers_delete(request, id):
     Teacher.objects.filter(pk=id).delete()
-    return HttpResponseRedirect(reverse('students'))
-
+    return HttpResponseRedirect(reverse('teachers'))

@@ -48,7 +48,8 @@ def groups_edit(request, id):
         template_name='groups_edit.html',
         context={'form': form,
                  'title': 'Edit groups',
-                 'group': group}
+                 'group': group,
+                 }
     )
 
 

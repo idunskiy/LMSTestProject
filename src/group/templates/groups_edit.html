@@ -13,5 +13,8 @@
         <button formaction="/groups/delete/{{ group.id }}" type="submit">Delete</button>
    </form>
 
+    {% with students_list=group.students.all %}
+        {% include 'includes/students_table.html' %}
+    {% endwith %}
 
 {% endblock %}

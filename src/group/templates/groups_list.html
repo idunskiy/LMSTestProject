@@ -4,8 +4,8 @@
 
     {% for group in groups_list %}
         {{ group.id }}
-        <a href="/groups/edit/{{ group.id }}" >{{ group.group_name }}
-           {{ group.group_specialization}} </a>
+        <a href="/groups/edit/{{ group.id }}" >{{ group.name }}
+           {{ group.specialization}} </a>
         </a>
         <br>
     {% empty %}

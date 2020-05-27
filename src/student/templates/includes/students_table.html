@@ -1,0 +1,40 @@
+<!--{% for student in students_list %}
+        {{ student.id }}
+            <a href="{% url 'students:edit' student.id %}"> {{ student.first_name }}
+           {{ student.last_name }} </a>
+           {{ student.email }}
+           {{ student.group.group_specialization }}
+        <br>
+    {% empty %}
+        <p>Sorry, list is empty</p>
+{% endfor %}
+-->
+
+{% if students_list %}
+    <table border="1px">
+        <tr>
+          <th>ID</th>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>Email</th>
+          <th>Group</th>
+          <th>Specialization</th>
+{#          <th>🗑</th>#}
+          <th>🖉</th>
+        </tr>
+        {% for student in students_list %}
+            <tr>
+              <td> {{ student.id }}</td>
+              <td> {{ student.first_name }}</td>
+              <td> {{ student.last_name }}</td>
+              <td> {{ student.email }}</td>
+              <td> {{ student.group.name }}</td>
+              <td> {{ student.group.specialization }}</td>
+              <td> <a href="/students/edit/{{ student.id }}">EDIT</a></td>
+{#              <td> <a href="/students/delete/{{ student.id }}">DEL</a></td>#}
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>Sorry, list is empty</p>
+{% endif %}
