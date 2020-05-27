@@ -13,5 +13,26 @@
         <button formaction="/teachers/delete/{{ teacher.id }}" type="submit" >Delete</button>
    </form>
 
+{% if teacher.groups.all %}
+    <p>Groups of this this teacher:</p>
+    <table border="1px">
+        <tr>
+          <th>ID</th>
+          <th>Group name</th>
+          <th>Group specialization</th>
+          <th>🖉</th>
+        </tr>
+        {% for group in teacher.groups.all %}
+            <tr>
+              <td> {{ group.id }}</td>
+              <td> {{ group.name }}</td>
+              <td> {{ group.specialization }}</td>
+              <td> <a href="/groups/edit/{{ group.id }}">EDIT</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>This teacher doesn't have any groups yet.</p>
+{% endif %}
 
 {% endblock %}

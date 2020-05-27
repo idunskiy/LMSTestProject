@@ -1,5 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
-from student.models import Student as student
+
+from group.models import Group
+from student.models import Student as student, Student
 
 
 class Command(BaseCommand):
@@ -10,7 +12,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         num_students = options['num_students']
-        print((num_students))
+        Student.objects.all().delete()
+        groups = list(Group.objects.all())
         for i in range(num_students[0]):
-            student.generate_student()
+            student.generate_student(groups)
         self.stdout.write(self.style.SUCCESS('Successfully generated  "%s" students' % num_students[0]))
