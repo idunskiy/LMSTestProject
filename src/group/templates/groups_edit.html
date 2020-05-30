@@ -7,7 +7,7 @@
       {{ form|crispy }}
       <button class="btn btn-primary" type="submit">Save</button>
     </form>
-
+    <br>
    <form method="post">
         {% csrf_token %}
         <button class="btn btn-danger" formaction="{% url 'groups:delete' group.id %}" type="submit">Delete</button>
