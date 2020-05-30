@@ -1,16 +1,17 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
     <form method="post">
       {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Save</button>
+      {{ form|crispy }}
+      <button class="btn btn-primary" type="submit">Save</button>
 
     </form>
 
    <form method="post">
         {% csrf_token %}
-        <button formaction="/teachers/delete/{{ teacher.id }}" type="submit" >Delete</button>
+       <button class="btn btn-primary" formaction="{% url 'teachers:delete' teacher.id %}" type="submit" >Delete</button>
    </form>
 
 {% if teacher.groups.all %}
@@ -27,7 +28,7 @@
               <td> {{ group.id }}</td>
               <td> {{ group.name }}</td>
               <td> {{ group.specialization }}</td>
-              <td> <a href="/groups/edit/{{ group.id }}">EDIT</a></td>
+              <td> <a href="{% url 'groups:edit' group.id %}">EDIT</a></td>
             </tr>
         {% endfor %}
     </table>

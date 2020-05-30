@@ -4,7 +4,7 @@
 
  {% for teacher in teachers_list %}
         {{ teacher.id }}
-        <a href="/teachers/edit/{{ teacher.id }}"> {{ teacher.first_name }}
+        <a href="{% url 'teachers:edit' teacher.id %}"> {{ teacher.first_name }}
            {{ teacher.last_name }} </a>
         {{ teacher.email }}
         <br>

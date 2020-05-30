@@ -1,17 +1,17 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
     <form method="post">
       {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Save</button>
+      {{ form|crispy }}
+      <button class="btn btn-primary" type="submit">Save</button>
 
     </form>
-
+    <br>
    <form method="post">
         {% csrf_token %}
-        <button formaction="/students/delete/{{ student.id }}" type="submit" name="studentBtnDelete" id="studentBtnDelete">Delete</button>
+        <button formaction="{% url 'students:delete' student.id %}" type="submit" class="btn btn-danger" name="studentBtnDelete" id="studentBtnDelete">Delete</button>
    </form>
-
 
 {% endblock %}
