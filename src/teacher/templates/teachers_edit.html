@@ -8,10 +8,10 @@
       <button class="btn btn-primary" type="submit">Save</button>
 
     </form>
-
+   <br>
    <form method="post">
         {% csrf_token %}
-       <button class="btn btn-primary" formaction="{% url 'teachers:delete' teacher.id %}" type="submit" >Delete</button>
+       <button class="btn btn-danger" formaction="{% url 'teachers:delete' teacher.id %}" type="submit" >Delete</button>
    </form>
 
 {% if teacher.groups.all %}

@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 
 from student.models import Student
@@ -14,7 +15,16 @@ class StudentAddForm(StudentBaseForm):
 
 
 class StudentEditForm(StudentBaseForm):
-    pass
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if Student.objects.all().filter(email=email).exists() and email != self.initial['email']:
+            raise ValidationError('Email already exists.')
+        return email
+
+    def clean(self):
+        if self.cleaned_data['first_name'] == self.cleaned_data['last_name']:
+            raise ValidationError(f"First name and Last name can't be equal.")
 
 
 class StudentDeleteForm(StudentBaseForm):
