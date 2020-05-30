@@ -15,3 +15,8 @@ class GroupAddForm(GroupBaseForm):
 
 class GroupEditForm(GroupBaseForm):
     pass
+
+
+class GroupDeleteForm(GroupBaseForm):
+    class Meta(GroupBaseForm.Meta):
+        fields = []

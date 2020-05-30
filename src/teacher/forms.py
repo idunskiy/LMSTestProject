@@ -15,3 +15,8 @@ class TeacherAddForm(TeacherBaseForm):
 
 class TeacherEditForm(TeacherBaseForm):
     pass
+
+
+class TeacherDeleteForm(TeacherBaseForm):
+    class Meta(TeacherBaseForm.Meta):
+        fields = []

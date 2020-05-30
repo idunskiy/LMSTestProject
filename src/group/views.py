@@ -4,8 +4,9 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.urls import reverse
+from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 
-from group.forms import GroupAddForm, GroupEditForm
+from group.forms import GroupAddForm, GroupEditForm, GroupDeleteForm
 from group.models import Group
 
 
@@ -26,48 +27,92 @@ def groups_list(request):
         context={'groups_list': qs,
                  'title': 'Groups list'}
     )
+#
+#
+# def groups_edit(request, id):
+#     try:
+#         group = Group.objects.get(id=id)
+#     except ObjectDoesNotExist:
+#         return HttpResponseNotFound(f'Group with id={id} does not exists.')
+#
+#     if request.method == 'POST':
+#         form = GroupEditForm(request.POST, instance=group)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponseRedirect(reverse('groups'))
+#     else:
+#         form = GroupEditForm(
+#             instance=group
+#         )
+#     return render(
+#         request=request,
+#         template_name='groups_edit.html',
+#         context={'form': form,
+#                  'title': 'Edit groups',
+#                  'group': group,
+#                  }
+#     )
+#
+#
+# def groups_add(request):
+#     if request.method == 'POST':
+#         form = GroupAddForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponseRedirect(reverse('groups'))
+#     else:
+#         form = GroupAddForm()
+#     return render(
+#         request=request,
+#         template_name='groups_add.html',
+#         context={'form': form}
+#     )
+#
+#
+# def groups_delete(request, id):
+#     Group.objects.filter(pk=id).delete()
+#     return HttpResponseRedirect(reverse('groups'))
 
 
-def groups_edit(request, id):
-    try:
-        group = Group.objects.get(id=id)
-    except ObjectDoesNotExist:
-        return HttpResponseNotFound(f'Group with id={id} does not exists.')
+class GroupsListView(ListView):
+    model = Group
+    template_name = 'groups_list.html'
+    context_object_name = 'groups_list'
 
-    if request.method == 'POST':
-        form = GroupEditForm(request.POST, instance=group)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('groups'))
-    else:
-        form = GroupEditForm(
-            instance=group
-        )
-    return render(
-        request=request,
-        template_name='groups_edit.html',
-        context={'form': form,
-                 'title': 'Edit groups',
-                 'group': group,
-                 }
-    )
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.order_by('-id')
+
+        return qs
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=None, **kwargs)
+        context['title'] = 'Groups list'
+        return context
 
 
-def groups_add(request):
-    if request.method == 'POST':
-        form = GroupAddForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('groups'))
-    else:
-        form = GroupAddForm()
-    return render(
-        request=request,
-        template_name='groups_add.html',
-        context={'form': form}
-    )
+class GroupsUpdateView(UpdateView):
+    model = Group
+    template_name = 'groups_edit.html'
+    form_class = GroupEditForm
+
+    def get_success_url(self):
+        return reverse('groups:list')
 
 
-def groups_delete(request, id):
-    Group.objects.filter(pk=id).delete()
-    return HttpResponseRedirect(reverse('groups'))
+class GroupsCreateView(CreateView):
+    model = Group
+    template_name = 'groups_add.html'
+    form_class = GroupAddForm
+
+    def get_success_url(self):
+        return reverse('groups:list')
+
+
+class GroupsDeleteView(DeleteView):
+    model = Group
+    template_name = 'groups_edit.html'
+    form_class = GroupDeleteForm
+
+    def get_success_url(self):
+        return reverse('groups:list')

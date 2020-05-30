@@ -10,7 +10,7 @@
 
    <form method="post">
         {% csrf_token %}
-        <button formaction="/teachers/delete/{{ teacher.id }}" type="submit" >Delete</button>
+       <button formaction="{% url 'teachers:delete' teacher.id %}" type="submit" >Delete</button>
    </form>
 
 {% if teacher.groups.all %}
@@ -27,7 +27,7 @@
               <td> {{ group.id }}</td>
               <td> {{ group.name }}</td>
               <td> {{ group.specialization }}</td>
-              <td> <a href="/groups/edit/{{ group.id }}">EDIT</a></td>
+              <td> <a href="{% url 'groups:edit' group.id %}">EDIT</a></td>
             </tr>
         {% endfor %}
     </table>

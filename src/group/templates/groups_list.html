@@ -5,6 +5,7 @@
     {% for group in groups_list %}
         {{ group.id }}
         <a href="/groups/edit/{{ group.id }}" >{{ group.name }}
+<!--        <a href="{% url 'groups:list' group.id %}">{{ group.name }}-->
            {{ group.specialization}} </a>
         </a>
         <br>
