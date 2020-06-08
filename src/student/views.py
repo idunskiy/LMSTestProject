@@ -1,12 +1,13 @@
 import json
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 
 # Create your views here.
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 
 from student.forms import StudentAddForm, StudentEditForm, StudentDeleteForm
@@ -108,10 +109,12 @@ def generate_student(request):
 #     return HttpResponseRedirect(reverse('students:list'))
 
 
-class StudentsListView(ListView):
+class StudentsListView(LoginRequiredMixin, ListView):
     model = Student
     template_name = 'students_list.html'
     context_object_name = 'students_list'
+    login_url = reverse_lazy('user_account:login')
+    paginate_by = 10
 
     def get_queryset(self):
         request = self.request
@@ -132,28 +135,31 @@ class StudentsListView(ListView):
         return context
 
 
-class StudentsUpdateView(UpdateView):
+class StudentsUpdateView(LoginRequiredMixin, UpdateView):
     model = Student
     template_name = 'students_edit.html'
     form_class = StudentEditForm
+    login_url = reverse_lazy('user_account:login')
 
     def get_success_url(self):
         return reverse('students:list')
 
 
-class StudentsCreateView(CreateView):
+class StudentsCreateView(LoginRequiredMixin, CreateView):
     model = Student
     template_name = 'students_add.html'
     form_class = StudentAddForm
+    login_url = reverse_lazy('user_account:login')
 
     def get_success_url(self):
         return reverse('students:list')
 
 
-class StudentsDeleteView(DeleteView):
+class StudentsDeleteView(LoginRequiredMixin, DeleteView):
     model = Student
     template_name = 'students_edit.html'
     form_class = StudentDeleteForm
+    login_url = reverse_lazy('user_account:login')
 
     def get_success_url(self):
         return reverse('students:list')
