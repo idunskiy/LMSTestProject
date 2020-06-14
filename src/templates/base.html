@@ -1,7 +1,11 @@
+
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
+
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'main/css/style.css' %}" >
     <meta charset="UTF-8">
     <title>{{ title }} </title>
 </head>
@@ -27,12 +31,22 @@
 
     <ul class="navbar-nav">
                 {% if user.is_authenticated %}
+
+                    <li class="avatar">
+                        {% if user.profile.image.url != None %}
+                        <!--<img  class="rounded-circle p-1 m-1" width="70" height="70" overflow="hidden" src="{{ user.profile.image.url }}" alt="" /> -->
+                        <img  class="avatar" src="{{ user.profile.image.url }}" alt="" />
+                        {% else %}
+                        <img class="rounded-circle p-1 m-1" width="70" height="70" overflow="hidden" src="default.jpg" alt="" />
+                        {% endif %}
+                    </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="{% url 'user_account:profile' %}">Profile ( {{ user.username }} )</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'user_account:logout' %}">Logout</a>
                     </li>
+
                 {% else %}
                     <li class="nav-item active">
                         <a class="nav-link" href="{% url 'user_account:login' %}">Login</span></a>
@@ -46,6 +60,22 @@
   </div>
 
 </nav>
+
+{% if messages %}
+<div class="alert alert-success" role="alert">
+<ul>
+    {% for message in messages %}
+    <li
+        {% if message.tags %} class="{{ message.tags }}"{% endif %}
+    class="li-message">
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+</div>
+
 <div class="container">
     <h2>{{ title }}</h2>
   <p></p>
