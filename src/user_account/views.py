@@ -1,4 +1,4 @@
-import self as self
+from django.contrib import messages
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -6,7 +6,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, TemplateView
-from django.views.generic.edit import BaseFormView, UpdateView
+from django.views.generic.edit import UpdateView
 
 from user_account.forms import UserAccountRegistrationForm, UserAccountProfileForm, UserProfileUpdateForm
 
@@ -35,16 +35,15 @@ class SuccessRegistrationView(TemplateView):
         return context
 
 
-
 class UserAccountLoginView(LoginView):
     template_name = 'login.html'
-    extra_context = {'title':'Login as a user'}
+    extra_context = {'title': 'Login as a user'}
     success_url = reverse_lazy('index')
 
 
 class UserAccountLogoutView(LogoutView):
     template_name = 'logout.html'
-    extra_context = {'title':'Logout from LMS'}
+    extra_context = {'title': 'Logout from LMS'}
 
 
 class UserAccountUpdateView(UpdateView):
@@ -61,8 +60,8 @@ def user_account_profile(request):
     if request.method == 'POST':
         u_form = UserAccountProfileForm(request.POST, instance=request.user)
         p_form = UserProfileUpdateForm(request.POST,
-                                        request.FILES,
-                                        instance=request.user.profile)
+                                       request.FILES,
+                                       instance=request.user.profile)
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()

@@ -33,12 +33,8 @@
                 {% if user.is_authenticated %}
 
                     <li class="avatar">
-                        {% if user.profile.image.url != None %}
                         <!--<img  class="rounded-circle p-1 m-1" width="70" height="70" overflow="hidden" src="{{ user.profile.image.url }}" alt="" /> -->
                         <img  class="avatar" src="{{ user.profile.image.url }}" alt="" />
-                        {% else %}
-                        <img class="rounded-circle p-1 m-1" width="70" height="70" overflow="hidden" src="default.jpg" alt="" />
-                        {% endif %}
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="{% url 'user_account:profile' %}">Profile ( {{ user.username }} )</a>
