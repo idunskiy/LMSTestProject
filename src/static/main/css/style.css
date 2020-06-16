@@ -1,0 +1,15 @@
+.avatar{
+    vertical-align: middle;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.li-message{
+    display:table;
+    margin:200px auto 200px auto;
+}
+
+h1 {
+    color: #ef6155
+}

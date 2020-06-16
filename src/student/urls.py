@@ -1,5 +1,6 @@
 from django.urls import path
-from student.views import generate_student, StudentsListView, StudentsUpdateView, StudentsCreateView, StudentsDeleteView
+
+from student.views import StudentsListView, StudentsUpdateView, StudentsCreateView, StudentsDeleteView
 
 app_name = 'students'
 

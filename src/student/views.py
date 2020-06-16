@@ -1,13 +1,9 @@
-import json
-
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
-
+from django.http import HttpResponse
 # Create your views here.
 from django.urls import reverse, reverse_lazy
+from django.utils.http import urlencode
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView
 
 from student.forms import StudentAddForm, StudentEditForm, StudentDeleteForm
@@ -131,7 +127,9 @@ class StudentsListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(object_list=None, **kwargs)
+        params = self.request.GET
         context['title'] = 'Students list'
+        context['query_params'] = urlencode({k: v for k, v in params.items() if k != 'page'})
         return context
 
 
